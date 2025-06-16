@@ -27,6 +27,9 @@ class GameMap:
         for x in range(room.width):
             for y in range(room.height):
                 if x == 0 or x == room.width - 1 or y == 0 or y == room.height - 1:
+                    if self.array[room.y + y][room.x + x] == ".":
+                        continue
+                    
                     self.array[room.y + y][room.x + x] = "#"
                 else:
                     self.array[room.y + y][room.x + x] = "."
@@ -76,4 +79,4 @@ class GameMap:
                                            new_room.y + new_room.height // 2)
                     self.rooms.append(new_room)
                     break
-
+    

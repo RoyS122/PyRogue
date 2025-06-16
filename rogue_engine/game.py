@@ -1,5 +1,6 @@
 from rogue_engine.map import GameMap
 from rogue_engine.player import Player
+from rogue_engine.enemies import Enemy, Ennemy_Types
 import os
 import msvcrt
 import random
@@ -9,13 +10,33 @@ import random
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-class game:
+
+
+class Game:
     def __init__(self, map_width: int, map_height: int):
         self.map = GameMap(map_width, map_height)
         self.map.generate_rooms(random.randint(3, 7))
+        
         self.player = Player("@", 10, 1, 1, 1, 1)
-        r = random.choice(self.map.rooms)
-        self.player.x, self.player.y = r.x + r.width - (r.width // 2), r.y + r.height - (r.height // 2)
+        room = random.choice(self.map.rooms)
+        self.player.x = room.x + room.width // 2
+        self.player.y = room.y + room.height // 2
+
+        self.enemies = []
+        for r in self.map.rooms:
+            enn_type = random.choice(Ennemy_Types)
+            new_enemy = Enemy(
+                enn_type["model"],
+                random.randint(*enn_type["range_hp"]),
+                enn_type["mobility"],
+                random.randint(*enn_type["range_strength"]),
+                random.randint(*enn_type["range_dodge"])
+            )
+            print(r.x, r.y, r.width, r.height)
+            new_enemy.x, new_enemy.y = random.randint(r.x + 1, r.x + r.width - 2), random.randint(r.y + 1, r.y + r.height - 2)
+            self.enemies.append(new_enemy)
+
+        self.ennemies = []
     
     def start_gameloop(self):
         while(True): 
@@ -59,6 +80,10 @@ class game:
 
         if (self.player.x >= 0 and self.player.x < len(buffer[0])) and (self.player.y >= 0 and self.player.y < len(buffer)):
             buffer[self.player.y][self.player.x] = self.player.model
+
+        for e in self.enemies:
+            if (e.x >= 0 and e.x < len(buffer[0])) and (e.y >= 0 and e.y < len(buffer)):
+                buffer[e.y][e.x] = e.model
         
         for line in buffer:
             rendered_lines.append("".join(line))  
