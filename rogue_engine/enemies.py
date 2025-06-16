@@ -7,5 +7,5 @@ class Enemy:
 
 
 Ennemy_Types = [
-    {"model": "G", "range_hp": (1, 5), "range_dodge": (2, 10), "range_strength": (1,4), "mobility": 2}
+    {"model": "\033[32mG\033[0m", "range_hp": (1, 5), "range_dodge": (2, 10), "range_strength": (1,4), "mobility": 2}
 ]

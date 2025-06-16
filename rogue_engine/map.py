@@ -5,6 +5,7 @@ class Room:
         self.x, self.y = x, y
         self.width, self.height = width, height
         self.doors = []
+        self.linked = []
 
     def intersects(self, other):
         return (self.x - 1< other.x + other.width + 1 and

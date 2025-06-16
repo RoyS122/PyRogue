@@ -16,8 +16,9 @@ class Game:
     def __init__(self, map_width: int, map_height: int):
         self.map = GameMap(map_width, map_height)
         self.map.generate_rooms(random.randint(3, 7))
-        
-        self.player = Player("@", 10, 1, 1, 1, 1)
+      
+
+        self.player = Player("\033[38;5;208m@\033[0m", 10, 1, 1, 1, 1)
         room = random.choice(self.map.rooms)
         self.player.x = room.x + room.width // 2
         self.player.y = room.y + room.height // 2
