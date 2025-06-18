@@ -1,12 +1,14 @@
 import random
 from typing import List
-
+import pyglet
 class Room:
     def __init__(self, x: int, y: int, width: int, height: int):
         self.x, self.y = x, y
+     
         self.width, self.height = width, height
         self.doors = []
         self.linked = []
+     
 
     def intersects(self, other):
         return (self.x - 1< other.x + other.width + 1 and
@@ -20,10 +22,22 @@ class GameMap:
         self.height = height
         self.array = [[" " for j in range(width)] for i in range(height)]
         self.rooms: List[Room] = []
+        self.tile_size = 8
+        self.wall_img = pyglet.image.load("src/sprites/wall.png")
+    
+    def draw(self, window_height):
+        for y in range(self.height):
+            for x in range(self.width):
+                tile = self.array[y][x]
 
-    def display(self):
-        for line in self.array:
-            print("".join(line))
+                if tile == "#":
+                    img = self.wall_img
+                    screen_y = window_height - (y + 1) * self.tile_size
+                    img.blit(x * self.tile_size, screen_y)
+
+# Inversion de l'axe Y pour correspondre au haut-gauche
+              
+
 
     def add_room(self, room: Room):
         for x in range(room.width):
