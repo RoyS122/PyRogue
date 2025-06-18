@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 class Room:
     def __init__(self, x: int, y: int, width: int, height: int):
@@ -18,7 +19,7 @@ class GameMap:
         self.width = width
         self.height = height
         self.array = [[" " for j in range(width)] for i in range(height)]
-        self.rooms = []
+        self.rooms: List[Room] = []
 
     def display(self):
         for line in self.array:
