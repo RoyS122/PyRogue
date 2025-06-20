@@ -1,5 +1,13 @@
 import pyglet
 from rogue_engine.camera import Camera
+from pyglet.gl import (
+    GL_NEAREST,
+    glTexParameteri,
+    GL_TEXTURE_2D,
+    GL_TEXTURE_MIN_FILTER,
+    GL_TEXTURE_MAG_FILTER
+    )
+
 class Player:
     def __init__(self, model: str, sprite_path: str, hp: int, mobility: int, base_strength: int, base_health: int, base_dodge: int):
         self.sprite_path = sprite_path
@@ -11,7 +19,11 @@ class Player:
 
     def init_sprite(self):
         image = pyglet.image.load(self.sprite_path)
-        self.sprite = pyglet.sprite.Sprite(image, self.x, self.y)
+        texture = image.get_texture()
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+
+        self.sprite = pyglet.sprite.Sprite(texture, self.x, self.y)
         self.sprite.anchor_x = 0
         self.sprite.anchor_y = 0
         self.sprite.scale = 2

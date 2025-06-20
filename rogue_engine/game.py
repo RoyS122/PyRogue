@@ -5,15 +5,11 @@ import os
 import msvcrt
 import random
 from typing import List
-import pyglet
 from pyglet.window import key
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-class Camera:
-    def __init__(self, x, x_offset, y, y_offset):
-        self.x, self.x_offset = x, x_offset
-        self.y, self.y_offset = y, y_offset
+
 
     
 
@@ -37,7 +33,8 @@ class Game:
                 random.randint(*enn_type["range_hp"]),
                 enn_type["mobility"],
                 random.randint(*enn_type["range_strength"]),
-                random.randint(*enn_type["range_dodge"])
+                random.randint(*enn_type["range_dodge"]),
+                sprite_path=enn_type["sprite"]
             )
             print(r.x, r.y, r.width, r.height)
             new_enemy.x, new_enemy.y = random.randint(r.x + 1, r.x + r.width - 2), random.randint(r.y + 1, r.y + r.height - 2)
@@ -93,6 +90,6 @@ class Game:
                     self.player.x += move["x"]
                     self.player.y += move["y"]
 
-        if self.player.hp < 0:
-            quit()
+        # if self.player.hp < 0:
+        #     exit()
     
