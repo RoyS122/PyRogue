@@ -1,6 +1,10 @@
 import random
 from typing import List
 import pyglet
+from rogue_engine.camera import Camera
+
+
+
 class Room:
     def __init__(self, x: int, y: int, width: int, height: int):
         self.x, self.y = x, y
@@ -22,18 +26,29 @@ class GameMap:
         self.height = height
         self.array = [[" " for j in range(width)] for i in range(height)]
         self.rooms: List[Room] = []
-        self.tile_size = 8
+        self.tile_size = 16
         self.wall_img = pyglet.image.load("src/sprites/wall.png")
+        self.scale = 2;
     
-    def draw(self, window_height):
-        for y in range(self.height):
-            for x in range(self.width):
-                tile = self.array[y][x]
+    def draw(self, window_height, camera: Camera):
+        for y in range(camera.y, camera.y + camera.y_offset):
+            for x in range(camera.x, camera.x + camera.x_offset):
+                if 0 <= y < self.height and 0 <= x < self.width:
+                    tile = self.array[y][x]
 
-                if tile == "#":
-                    img = self.wall_img
-                    screen_y = window_height - (y + 1) * self.tile_size
-                    img.blit(x * self.tile_size, screen_y)
+                    if tile == "#":
+                        img = self.wall_img
+                        screen_x = (x - camera.x) * self.tile_size * self.scale
+                        screen_y = window_height - ((y - camera.y + 1) * self.tile_size * self.scale)
+
+                        img.blit(
+                            screen_x,
+                            screen_y,
+                            width=self.tile_size * self.scale,
+                            height=self.tile_size * self.scale
+                        )
+
+
 
 # Inversion de l'axe Y pour correspondre au haut-gauche
               
